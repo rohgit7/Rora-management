@@ -6,6 +6,16 @@ class Doctor {
     return rows;
   }
 
+  static async getAllEnriched() {
+    const [rows] = await pool.query(
+      `SELECT d.doctor_id, d.name, d.specialty, d.contact, d.dept_id,
+              dept.name AS department_name, dept.location AS department_location
+       FROM Doctors d
+       LEFT JOIN Departments dept ON d.dept_id = dept.dept_id`
+    );
+    return rows;
+  }
+
   static async getById(id) {
     const [rows] = await pool.query('SELECT * FROM Doctors WHERE doctor_id = ?', [id]);
     return rows[0];

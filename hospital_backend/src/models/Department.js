@@ -7,6 +7,17 @@ class Department {
     return rows;
   }
 
+  static async getAllEnriched() {
+    const [rows] = await pool.query(
+      `SELECT d.dept_id, d.name, d.location,
+              COUNT(doc.doctor_id) AS doctor_count
+       FROM Departments d
+       LEFT JOIN Doctors doc ON doc.dept_id = d.dept_id
+       GROUP BY d.dept_id`
+    );
+    return rows;
+  }
+
   // Get one department by ID
   static async getById(id) {
     const [rows] = await pool.query('SELECT * FROM Departments WHERE dept_id = ?', [id]);

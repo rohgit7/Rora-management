@@ -11,6 +11,16 @@ module.exports = {
     }
   },
 
+  // GET /api/pharmacies/enriched - pharmacy with patient and medicine info
+  async getAllPharmaciesEnriched(req, res) {
+    try {
+      const pharmacies = await Pharmacy.getAllEnriched();
+      res.status(200).json(pharmacies);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
   // GET /api/pharmacies/:id - get a pharmacy record by ID
   async getPharmacyById(req, res) {
     try {

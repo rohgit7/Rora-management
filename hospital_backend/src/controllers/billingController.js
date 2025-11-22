@@ -11,6 +11,16 @@ module.exports = {
     }
   },
 
+  // GET /api/billing/enriched - get all billing with patient name
+  async getAllBillingEnriched(req, res) {
+    try {
+      const billingRecords = await Billing.getAllEnriched();
+      res.status(200).json(billingRecords);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
   // GET /api/billing/:id - get billing record by ID
   async getBillingById(req, res) {
     try {

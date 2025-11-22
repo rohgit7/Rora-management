@@ -11,6 +11,16 @@ module.exports = {
     }
   },
 
+  // GET /api/departments/enriched - departments with doctor counts
+  async getAllDepartmentsEnriched(req, res) {
+    try {
+      const departments = await Department.getAllEnriched();
+      res.status(200).json(departments);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
   // GET /api/departments/:id - get a department by ID
   async getDepartmentById(req, res) {
     try {

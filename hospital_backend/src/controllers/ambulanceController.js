@@ -11,6 +11,16 @@ module.exports = {
     }
   },
 
+  // GET /api/ambulances/enriched - ambulances with availability flag
+  async getAllAmbulancesEnriched(req, res) {
+    try {
+      const ambulances = await Ambulance.getAllEnriched();
+      res.status(200).json(ambulances);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
   // GET /api/ambulances/:id - get ambulance by ID
   async getAmbulanceById(req, res) {
     try {

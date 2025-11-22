@@ -11,6 +11,16 @@ module.exports = {
     }
   },
 
+  // GET /api/patients/enriched - patients with billing and appointment counts
+  async getAllPatientsEnriched(req, res) {
+    try {
+      const patients = await Patient.getAllEnriched();
+      res.status(200).json(patients);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
   // GET /api/patients/:id - get a patient by ID
   async getPatientById(req, res) {
     try {

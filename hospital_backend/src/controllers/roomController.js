@@ -11,6 +11,16 @@ module.exports = {
     }
   },
 
+  // GET /api/rooms/enriched - rooms with availability flag
+  async getAllRoomsEnriched(req, res) {
+    try {
+      const rooms = await Room.getAllEnriched();
+      res.status(200).json(rooms);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
   // GET /api/rooms/:id - get a room by ID
   async getRoomById(req, res) {
     try {

@@ -3,8 +3,14 @@ const router = express.Router();
 const authenticateToken = require('../middleware/authMiddleware');
 const roomController = require('../controllers/roomController');
 
+// Apply authentication middleware to all routes
+router.use(authenticateToken);
+
 // GET /api/rooms - get all rooms
 router.get('/', roomController.getAllRooms);
+
+// GET /api/rooms/enriched - availability flag
+router.get('/enriched', roomController.getAllRoomsEnriched);
 
 // GET /api/rooms/:id - get a room by ID
 router.get('/:id', roomController.getRoomById);

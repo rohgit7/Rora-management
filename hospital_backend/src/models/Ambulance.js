@@ -7,6 +7,15 @@ class Ambulance {
     return rows;
   }
 
+  static async getAllEnriched() {
+    const [rows] = await pool.query(
+      `SELECT a.ambulance_id, a.status, a.driver,
+              CASE WHEN a.status = 'Available' THEN 1 ELSE 0 END AS is_available
+       FROM Ambulance a`
+    );
+    return rows;
+  }
+
   // Get one ambulance by ID
   static async getById(id) {
     const [rows] = await pool.query('SELECT * FROM Ambulance WHERE ambulance_id = ?', [id]);

@@ -11,6 +11,16 @@ module.exports = {
     }
   },
 
+  // GET /api/appointments/enriched - get all appointments with joins
+  async getAllAppointmentsEnriched(req, res) {
+    try {
+      const appointments = await Appointment.getAllEnriched();
+      res.status(200).json(appointments);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
   // GET /api/appointments/:id - get appointment by ID
   async getAppointmentById(req, res) {
     try {

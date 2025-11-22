@@ -1,16 +1,42 @@
 const pool = require('../config/db');
+const { formatDate } = require('../utils/helpers');
 
 class Medicine {
   // Get all medicines
   static async getAll() {
     const [rows] = await pool.query('SELECT * FROM Medicine');
-    return rows;
+    return rows.map((row) => ({
+      ...row,
+      expiry_date: row.expiry_date ? formatDate(row.expiry_date) : null,
+    }));
+  }
+
+  static async getAllEnriched() {
+    const [rows] = await pool.query(
+      `SELECT m.medicine_id, m.name, m.type, m.stock, m.expiry_date,
+              COALESCE(SUM(ph.quantity), 0) AS dispensed_qty
+       FROM Medicine m
+       LEFT JOIN Pharmacy ph ON ph.medicine_id = m.medicine_id
+       GROUP BY m.medicine_id`
+    );
+    return rows.map((row) => ({
+      ...row,
+      expiry_date: row.expiry_date ? formatDate(row.expiry_date) : null,
+    }));
   }
 
   // Get a single medicine by ID
   static async getById(id) {
-    const [rows] = await pool.query('SELECT * FROM Medicine WHERE medicine_id = ?', [id]);
-    return rows[0];
+    const [rows] = await pool.query(
+      'SELECT * FROM Medicine WHERE medicine_id = ?',
+      [id]
+    );
+    const row = rows[0];
+    if (!row) return undefined;
+    return {
+      ...row,
+      expiry_date: row.expiry_date ? formatDate(row.expiry_date) : null,
+    };
   }
 
   // Create a new medicine record

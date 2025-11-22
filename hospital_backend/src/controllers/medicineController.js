@@ -11,6 +11,16 @@ module.exports = {
     }
   },
 
+  // GET /api/medicines/enriched - medicines with dispensed totals
+  async getAllMedicinesEnriched(req, res) {
+    try {
+      const meds = await Medicine.getAllEnriched();
+      res.status(200).json(meds);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
   // GET /api/medicines/:id - get a medicine by ID
   async getMedicineById(req, res) {
     try {

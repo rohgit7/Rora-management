@@ -3,8 +3,14 @@ const router = express.Router();
 const authenticateToken = require('../middleware/authMiddleware');
 const patientController = require('../controllers/patientController');
 
+// Apply authentication middleware to all routes
+router.use(authenticateToken);
+
 // GET /api/patients
 router.get('/', patientController.getAllPatients);
+
+// GET /api/patients/enriched - with billing and appointment counts
+router.get('/enriched', patientController.getAllPatientsEnriched);
 
 // GET /api/patients/:id
 router.get('/:id', patientController.getPatientById);

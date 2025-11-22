@@ -3,8 +3,14 @@ const router = express.Router();
 const authenticateToken = require('../middleware/authMiddleware');
 const doctorController = require('../controllers/doctorController');
 
+// Apply authentication middleware to all routes
+router.use(authenticateToken);
+
 // GET /api/doctors - get all doctors
 router.get('/', doctorController.getAllDoctors);
+
+// GET /api/doctors/enriched - doctors with department
+router.get('/enriched', doctorController.getAllDoctorsEnriched);
 
 // GET /api/doctors/:id - get a doctor by ID
 router.get('/:id', doctorController.getDoctorById);

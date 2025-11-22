@@ -7,6 +7,32 @@ class Billing {
     return rows;
   }
 
+  // Get all billing records with patient name
+  static async getAllEnriched() {
+    const [rows] = await pool.query(
+      `SELECT b.bill_id, b.patient_id, b.appointment_id, b.amount, b.insurance_provider, b.status,
+              p.name AS patient_name
+       FROM Billing b
+       JOIN Patients p ON b.patient_id = p.patient_id
+       ORDER BY b.bill_id DESC`
+    );
+    return rows;
+  }
+
+  // Recent billing records (latest)
+  static async getRecent(limit = 5) {
+    const [rows] = await pool.query(
+      `SELECT b.bill_id, b.patient_id, b.appointment_id, b.amount, b.insurance_provider, b.status,
+              p.name AS patient_name
+       FROM Billing b
+       JOIN Patients p ON b.patient_id = p.patient_id
+       ORDER BY b.bill_id DESC
+       LIMIT ?`,
+      [Number(limit) || 5]
+    );
+    return rows;
+  }
+
   // Get one billing record by ID
   static async getById(id) {
     const [rows] = await pool.query('SELECT * FROM Billing WHERE bill_id = ?', [id]);

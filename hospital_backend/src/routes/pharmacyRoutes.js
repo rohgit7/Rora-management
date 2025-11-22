@@ -3,8 +3,14 @@ const router = express.Router();
 const authenticateToken = require('../middleware/authMiddleware');
 const pharmacyController = require('../controllers/pharmacyController');
 
+// Apply authentication middleware to all routes
+router.use(authenticateToken);
+
 // GET /api/pharmacies - get all pharmacy records
 router.get('/', pharmacyController.getAllPharmacies);
+
+// GET /api/pharmacies/enriched - with patient and medicine info
+router.get('/enriched', pharmacyController.getAllPharmaciesEnriched);
 
 // GET /api/pharmacies/:id - get a pharmacy record by ID
 router.get('/:id', pharmacyController.getPharmacyById);

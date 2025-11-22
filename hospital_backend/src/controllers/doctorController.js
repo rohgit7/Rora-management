@@ -11,6 +11,16 @@ module.exports = {
     }
   },
 
+  // GET /api/doctors/enriched - get all doctors with department info
+  async getAllDoctorsEnriched(req, res) {
+    try {
+      const doctors = await Doctor.getAllEnriched();
+      res.status(200).json(doctors);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
   // GET /api/doctors/:id - get a doctor by ID
   async getDoctorById(req, res) {
     try {
