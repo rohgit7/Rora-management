@@ -3,6 +3,7 @@
 ### Terminal 1
 ```bash
 cd hospital_backend
+npm install
 npm run dev
 ```
 
@@ -10,5 +11,6 @@ npm run dev
 
 ```bash
 cd hospital_frontend
+npm install
 npm run dev
 ```
