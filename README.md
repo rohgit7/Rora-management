@@ -9,6 +9,6 @@ npm run dev
 ### Terminal 2
 
 ```bash
-cd hospital_backend
+cd hospital_frontend
 npm run dev
 ```
